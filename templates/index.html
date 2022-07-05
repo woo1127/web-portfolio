@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }} ">
+    <title>My Portfolio</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="nav">
+            <a class="nav__brand" href="#">Jeremy</a>
+            <ul class="nav__list">
+                <li class="nav__list-item"><a href="#">Home</a></li>
+                <li class="nav__list-item"><a href="#about">About</a></li>
+                <li class="nav__list-item"><a href="#interests">Interests</a></li>
+                <li class="nav__list-item"><a href="#project">Project</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero session -->
+    <section class="section">
+        <div class="hero container">
+            <div class="hero__header">
+                <h1 class="hero__heading">Hi There, <br> I'm Jeremy Koay</h2>
+                <p class="hero__content">I am into Web Designing</p>
+                <a href="#about" class="btn btn--primary">About Me
+                    <span class="icon-container">
+                        <img src="../static/image/arrow.svg" loading="lazy" alt="A right arrow sign" class="icon--small">
+                    </span>
+                </a>
+            </div>
+            <div class="hero__image">
+                <img src="../static/image/giphy.gif" loading="lazy" alt="A man sitting infront of computer and typing keyboard">
+                <p class="hero__image-copyright">@Image by zazeaze via https://tenor.com/view/coding-gif-24297652</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section section--white" id="about">
+        <div class="container container--about">
+            <div class="section__header">
+                <img src="../static/image/user.svg" loading="lazy" alt="A head icon" class="icon">
+                <h2 class="section__heading">About <span class="word--primary">Me</span></h2>
+            </div>
+            <div">
+                <div class="section__content">
+                    <h3>I am Jeremy Koay</h3>
+                    <p>I am a college student at Inti International University. I am studying for a diploma course in Information Technology. I super passionate about programming and hope in the future I could build my own software to solve human problems. To realize my dream, I will strive for excellence and perfection to improve myself.
+                    </p>
+                </div>
+            
+                <ul class="about__list">
+                    <li class="about__list-item"><span class="word--big">Age:</span> 19</li>
+                    <li class="about__list-item"><span class="word--big">Email:</span> i22022722@student.newinti.edu.my</li>
+                    <li class="about__list-item"><span class="word--big">Phone:</span> 01137409853</li>
+                    <li class="about__list-item"><span class="word--big">Place:</span> Penang, Malaysia</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interests Section-->
+    <section class="section section--primary" id="interests">
+        <div class="container">
+            <div class="section__header">
+                <img src="../static/image/coding.svg" loading="lazy" alt="A computer icon" class="icon">
+                <h2 class="section__heading">Fields of <span class="word--gold">Interest</span></h2>
+            </div>
+            <p class="section__content">Some of my fields of interest that I plan to master in future</p>
+            <div class="card-wrapper">
+                <div class="card">
+                    <img class="card__image" src="../static/image/data.png" loading="lazy" alt="A computer that show different graph and chart">
+                    <p class="card__title">Data Science</p>
+                    <p class="card__image-copyright">@Image by Katerina Limpitsouni via https://undraw.co/</p> 
+                </div>
+                <div class="card">
+                    <img class="card__image" src="../static/image/development.png" loading="lazy" alt="A server">
+                    <p class="card__title">Web Development</p>
+                    <p class="card__image-copyright">@Image by Katerina Limpitsouni via https://undraw.co/</p> 
+                </div>
+                <div class="card">
+                    <img class="card__image" src="../static/image/robot.png" loading="lazy" alt="A girl with her robot">
+                    <p class="card__title">Machine Learning</p>
+                    <p class="card__image-copyright">@Image by Katerina Limpitsouni via https://undraw.co/</p> 
+                </div>
+                <div class="card">
+                    <img class="card__image" src="../static/image/deep.png" loading="lazy" alt="A phone that can detech person expression">
+                    <p class="card__title">Deep Learning</p>
+                    <p class="card__image-copyright">@Image by Katerina Limpitsouni via https://undraw.co/</p> 
+                </div>
+                <div class="card">
+                    <img class="card__image" src="../static/image/design.png" loading="lazy" alt="Different components of website">
+                    <p class="card__title">Web Designing</p>
+                    <p class="card__image-copyright">@Image by Katerina Limpitsouni via https://undraw.co/</p> 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!---Upload Session -->
+    <section class="section section--white", id="project">
+        <div class="upload container">
+            <div class="section__header">
+                <img src="../static/image/project.svg" loading="lazy" alt="A computer icon" class="icon">
+                <h2 class="section__heading">Mini <span class="word--primary">Project</span></h2>
+            </div>
+            <p class="section__content">Put some real cat or dog image and watch the magic happen</p>
+            
+            <h3 id="upload__result"></h3>
+            <div class="upload__image-wrapper">
+                <div id="upload__content">
+                    <img src="../static/image/cloud2.svg" alt="" class="icon icon--big">
+                    <p>No file choosen Yet</p>
+                </div>
+            </div>
+            
+            <form method="POST" enctype="multipart/form-data" id="upload-file">
+                <label class='btn btn--primary' for="upload-image">
+                    Choose File
+                    <input type="file" name="file" id="upload-image">
+                </label>
+            </form>
+            
+            <button class='btn btn--primary' id="predict">Predict</button>
+        </div>
+    </section>
+
+    <!-- <script src="../static/index.js"></script> -->
+    <script src="{{ url_for('static', filename='main.js') }}" type="text/javascript"></script>
+</body>
+</html>
