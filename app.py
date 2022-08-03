@@ -1,51 +1,51 @@
-from flask import Flask, render_template, request, session
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, jsonify
 from tensorflow import keras
-from tensorflow.keras.preprocessing import image
+from PIL import Image
 import keras
 import os
 import numpy as np
 
-UPLOAD_FOLDER = os.path.join('static', 'uploads')
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'hellos'
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-
-    if request.method == 'POST':
-        img = request.files['upload-file']
-        img_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(img.filename))
-
-        img.save(img_path)
-        session['img_path'] = img_path
-
     return render_template('index.html')
 
 
-@app.route('/predict', methods=['POST', 'GET'])
-def predict():
-    if request.method == 'POST':
-        img = request.files['file']
-        img_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(img.filename))
+@app.route('/upload', methods=['POST'])
+def upload():
+    # the location of image that is temporary store in the browser file storage
+    req = request.files['file']
 
-        img.save(img_path)
+    # open img with pillow
+    img = Image.open(req)
 
-        predicted = prediction(img_path)
+    # resize to specify size to match the input of DL model
+    img = img.resize((180, 180))
 
-        return predicted
+    # convert to rgb to decrease the color channel from 4 to 3
+    img = img.convert('RGB')
 
-    return None
+    # convert img into array of numpy data
+    npimg = np.asarray(img)
+
+    global result
+    result = prediction(npimg)
+
+    return jsonify({'imgpath': 'Done'})
 
 
-def prediction(img_path):
+@app.route('/class')
+def classes():
+
+    return jsonify({'result': result})
+
+
+def prediction(img_tensor):
     model_path = os.path.join('static', 'model', 'feature_extraction_with_data_augmentation.keras')
     model = keras.models.load_model(model_path)
-
-    img = image.load_img(img_path, target_size=(180, 180))
-    img_tensor = image.img_to_array(img)                   
+                
     img_tensor = np.expand_dims(img_tensor, axis=0)         
 
     class_name = ['Cat', 'Dog']
@@ -54,8 +54,10 @@ def prediction(img_path):
 
     predicted_class = class_name[int(np.where(pred < 0.5, 0, 1))]
 
+    print(predicted_class)
+
     return predicted_class
-    
+
 
 if __name__ == '__main__':
     app.run(debug=True)

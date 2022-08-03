@@ -1,42 +1,48 @@
-$(document).ready(function() {
-    $('#upload__result').hide();
-    $('#predict').hide();
+const uploadImage = document.getElementById('upload-image')
+const imageWrapper = document.querySelector('.upload__image-wrapper')
+const uploadContent = document.getElementById('upload__content')
+const chooseFileBtn = document.getElementById('upload-file')
+const uploadResult = document.getElementById('upload__result')
+const predictBtn = document.getElementById('predict')
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('.upload__image-wrapper').css('background-image', 'url(' + e.target.result + ')');
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $('#upload-image').change(function() {
-        $('#upload-file').hide();
-        $('#upload__result').text('');
-        $('#predict').show();
-        $('#upload__content').hide();
-        readURL(this);
-    });
 
-    $('#predict').click(function() {
-        var form_data = new FormData($('#upload-file')[0]);
+uploadImage.addEventListener('change', () => {
+    let formData = new FormData
+    formData.append('file', uploadImage.files[0])
 
-        $.ajax({
-            type: 'POST',
-            url: '/predict',
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            async: true,
-            success: function(data) {
-                $('#predict').hide();
-                $('#upload-file').show();
-                $('#upload__result').fadeIn(600);
-                $('#upload__result').text(' Result: ' + data);
-                console.log('Success');
-            },
-        });
-    });
-});
+    // send img to the `/upload` endpoint
+    fetch(`${window.origin}/upload`, {
+        method: 'POST',
+        body: formData,
+    })
+    .then(res => res.json())
+    .then(msg => console.log(msg.imgpath))
+
+
+    setTimeout(() => {
+        const reader = new FileReader()
+    
+        reader.addEventListener('load', () => {
+            const uploadedImage = reader.result
+
+            imageWrapper.style.backgroundImage = `url(${uploadedImage})`
+        })
+        reader.readAsDataURL(uploadImage.files[0])
+
+        uploadResult.textContent = ''
+        chooseFileBtn.style.display = 'none'
+        uploadContent.style.display = 'none'
+        predictBtn.style.display = 'block'
+    }, 1000)
+})
+
+
+predictBtn.addEventListener('click', () => {
+    // fetch class predicted from the `/class` endpoint
+    fetch('/class')
+        .then(res => res.json())
+        .then(data => {uploadResult.textContent = data.result})
+
+    predictBtn.style.display = 'none'
+    chooseFileBtn.style.display = 'block'
+})
