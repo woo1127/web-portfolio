@@ -16,10 +16,9 @@ uploadImage.addEventListener('change', () => {
         body: formData,
     })
     .then(res => res.json())
-    .then(msg => console.log(msg.imgpath))
+    .then(msg => {console.log(msg.imgpath); performImageEffect()})
 
-
-    setTimeout(() => {
+    function performImageEffect() {
         const reader = new FileReader()
     
         reader.addEventListener('load', () => {
@@ -33,7 +32,7 @@ uploadImage.addEventListener('change', () => {
         chooseFileBtn.style.display = 'none'
         uploadContent.style.display = 'none'
         predictBtn.style.display = 'block'
-    }, 1000)
+    }
 })
 
 
