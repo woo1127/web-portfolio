@@ -7,6 +7,10 @@ const predictBtn = document.getElementById('predict')
 
 
 uploadImage.addEventListener('change', () => {
+    uploadContent.style.display = 'none'
+    uploadResult.textContent = ''
+    imageWrapper.style.backgroundImage = 'url(./static/image/loading.gif)'
+
     let formData = new FormData
     formData.append('file', uploadImage.files[0])
 
@@ -28,9 +32,7 @@ uploadImage.addEventListener('change', () => {
         })
         reader.readAsDataURL(uploadImage.files[0])
 
-        uploadResult.textContent = ''
         chooseFileBtn.style.display = 'none'
-        uploadContent.style.display = 'none'
         predictBtn.style.display = 'block'
     }
 })
