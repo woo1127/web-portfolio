@@ -11,27 +11,29 @@ uploadImage.addEventListener('change', () => {
     uploadResult.textContent = ''
     imageWrapper.style.backgroundImage = 'url(./static/image/loading.gif)'
 
-    let formData = new FormData
-    formData.append('file', uploadImage.files[0])
+    const image = uploadImage.files[0]
+    console.log(image)
+    const reader = new FileReader()
 
-    // send img to the `/upload` endpoint
-    fetch(`${window.origin}/upload`, {
+    let formData = new FormData()
+    formData.append('file', image)
+
+    fetch('/upload', {
         method: 'POST',
-        body: formData,
+        body: formData
     })
     .then(res => res.json())
-    .then(msg => {console.log(msg.imgpath); performImageEffect()})
-
-    function performImageEffect() {
-        const reader = new FileReader()
+    .then(msg => {
+        console.log(msg.imgpath)
+        imageEffect()
+    })
     
+    function imageEffect() {
         reader.addEventListener('load', () => {
-            const uploadedImage = reader.result
-
-            imageWrapper.style.backgroundImage = `url(${uploadedImage})`
+            imageWrapper.style.backgroundImage = `url(${reader.result})`
         })
-        reader.readAsDataURL(uploadImage.files[0])
-
+        reader.readAsDataURL(image)
+    
         chooseFileBtn.style.display = 'none'
         predictBtn.style.display = 'block'
     }

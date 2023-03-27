@@ -5,6 +5,15 @@ import keras
 import os
 import numpy as np
 
+''' 
+TODO: 
+    - Adding Tablet and Mobile Responsive
+    - Extend functionality of Ai model to classify more types of animals (transfer learning method)
+    - Change the debug mode of Flask app from true to false
+    - Renaming some variabel and class in css and js
+    - Using tensorflow js instead of python tensorflow to shorten the loading time of website
+    - Recreate the model with the file extension of .h5 instead of .keras to fulfill the requirement of tensorflow.js
+'''
 
 app = Flask(__name__)
 
