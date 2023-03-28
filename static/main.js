@@ -13,11 +13,15 @@ uploadImage.addEventListener('change', () => {
 
     const image = uploadImage.files[0]
     console.log(image)
+
     const reader = new FileReader()
+    const formData = new FormData()
 
-    let formData = new FormData()
     formData.append('file', image)
-
+    
+    for (const key of formData.keys())
+        console.log(key)
+    
     fetch('/upload', {
         method: 'POST',
         body: formData
